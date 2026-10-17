@@ -1,0 +1,29 @@
+schema_version: 1
+copy_mode: byte_identical
+assets:
+- path: world_model/exp174_e6.pth
+  source: results/EXP-WM-REACHABILITY-174/K6/train/epoch_06.pth
+  role: world_model
+  sha256: 21f25dbd1357b882a22f3b117f0e41af516bc592bb4158f18c24dfd354b1fdfc
+  size_bytes: 132686961
+- path: world_model/exp130_initial_fresh.pth
+  source: results/EXP-WM-PREDICT-130/initial_fresh.pth
+  role: world_model_encoder_reference
+  sha256: f7b4f847db7717a0c8e261e21156c2dfe11aa675a212072c465f4695c9978889
+  size_bytes: 132811047
+- path: baseline/HER_GRU_SAC/exp141_latest.pth
+  source: results/EXP-GRU-SAC-HER-NO-MASK-141/long/latest.pth
+  role: baseline
+  sha256: c9bf5a38fc2c8c1e9964958d478bab0fb373972d66dfdc65be000d944cac9ec5
+  size_bytes: 84867809
+- path: encoder/dinov2_vits14_pretrain.pth
+  source: checkpoint/dinov2_vits14_pretrain/dinov2_vits14_pretrain.pth
+  role: encoder_pretrain
+  sha256: b938bf1bc15cd2ec0feacfe3a1bb553fe8ea9ca46a7e1d8d00217f29aef60cd9
+  size_bytes: 88283115
+- path: encoder/lora_epoch_019.pth
+  source: checkpoint/finetine/dinov2-finetine/lora_epoch_019.pth
+  role: encoder_adapter
+  sha256: 6888fcae8a8203bd25e81f1b2c55cf1eeac37cc728b04c6110bb3393e90cfd3a
+  size_bytes: 451821
+total_size_bytes: 439100753

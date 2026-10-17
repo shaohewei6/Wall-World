@@ -1,0 +1,52 @@
+# User-editable configuration. Relative paths are based on this file.
+runtime:
+  device: cuda
+  precision: bfloat16
+weights:
+  checkpoint: ../checkpoints/world_model/exp174_e6.pth
+  checkpoint_sha256: 21f25dbd1357b882a22f3b117f0e41af516bc592bb4158f18c24dfd354b1fdfc
+  encoder_reference: ../checkpoints/world_model/exp130_initial_fresh.pth
+  encoder_sha256: f7b4f847db7717a0c8e261e21156c2dfe11aa675a212072c465f4695c9978889
+model:
+  action_count: 8
+  image_size: 224
+  inner_state_dim: 256
+  inner_token_count: 8
+  dynamic_depth: 4
+  dynamic_heads: 8
+  dynamic_mlp_ratio: 4.0
+  dynamic_dropout: 0.0
+  observation_depth: 1
+  observation_heads: 8
+  observation_mlp_ratio: 4.0
+  observation_dropout: 0.0
+  visual_predictor_heads: 8
+  coordinate_hidden_dim: 170
+  coordinate_attention_heads: 8
+  observation_initial_gate: 0.1
+  state_target_rms: 1.0
+  lora_config:
+    rank: 8
+    alpha: 16.0
+    dropout: 0.05
+    target_patterns:
+    - '*.attn.qkv'
+    - '*.attn.proj'
+    target_blocks:
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    adapt_conv1x1: false
+  encoder_type: dinov2_vits14
+  encoder_patch_size: 14
+  encoder_pretrain_image_size: 518
+  encoder_layer_scale: 1.0
+  encoder_interpolate_antialias: false
+  encoder_interpolate_offset: 0.1
+  coordinate_limit: 63
+  visual_predictor_dropout: 0.0
+  action_attention_heads: 8
+  action_hidden_dim: 170

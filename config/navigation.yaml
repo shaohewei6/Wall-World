@@ -1,0 +1,41 @@
+# User-editable configuration. Relative paths are based on this file.
+episode_limit: 256
+candidates: 128
+horizon: 6
+execute_steps: 4
+max_batches: 2
+sigma_degrees:
+- null
+- 60.0
+- 45.0
+- 35.0
+- 30.0
+- 30.0
+reachability_epsilon: 0.1
+temperature: 0.02
+branch_seed: 83001
+execution_seed: 83002
+arrival_reward: 10.0
+field:
+  rho: 8.0
+  goal_strength: 1.0
+  repel_strength: 0.5
+  half_life: 32.0
+  goal_gate_length: 1.0
+  repulsion_radius: 8.0
+  initial_repulsion: false
+  capacity: null
+  registration_interval: 0
+registration:
+  epsilon: 1.0e-06
+  window: 20
+  half_window: 10
+  distance_improvement: 1.0
+  repeat_fraction: 0.3
+  history_enabled: true
+  no_gain_enabled: true
+guard:
+  enabled: true
+  replan_on_new_passage: true
+execution:
+  replan_on_prediction_mismatch: true

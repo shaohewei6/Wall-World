@@ -1,0 +1,31 @@
+# User-editable configuration. Relative paths are based on this file.
+source: generated
+map_path: null
+seed: 19001
+geometry:
+  viewport_size: 224
+  patch_size: 14
+  map_tiles_per_axis: 4
+  tile_size: 224
+  wall_thickness: 28
+  ball_size: 14
+generation:
+  min_room_count: 7
+  max_room_count: 7
+  min_room_width: 182
+  max_room_width: 294
+  min_room_height: 168
+  max_room_height: 252
+  room_clearance: 28
+  min_doors_per_room: 1
+  max_doors_per_room: 4
+  door_width: 56
+  max_placement_attempts: 240
+  max_generation_attempts: 40
+environment:
+  max_action_norm: 20.0
+  collision_substep: 1.0
+task:
+  start: null
+  goal: null
+  coordinate_mode: absolute_patch
