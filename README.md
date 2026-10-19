@@ -40,30 +40,30 @@ Wall-World 研究如何结合局部视觉、运动反馈和内部预测完成目
 
 ### 状态预测与观测修正
 
-记 $o_t$ 为局部图像，$a_t$ 为八方向动作，$Z_t=E(o_t)$ 为冻结 DINOv2 ViT-S/14及已有 LoRA 提取的特征，$p_t=\sum_{s=1}^{t}\Delta p_s$ 为运动反馈累计的相对格坐标。世界模型维护 $H_t\in\mathbb R^{8\times256}$：
+记 $o_t$ 为局部图像，$a_t$ 为八方向动作，$Z_t=E(o_t)$ 为冻结 DINOv2 ViT-S/14及已有 LoRA 提取的特征，$p_t=\sum_{s=1}^{t}\Delta p_s$ 为运动反馈累计的相对格坐标。世界模型维护 $H_t\in\mathbb{R}^{8\times256}$：
 
-$$
+```math
 H^-_{t+1}=D_\theta(H_t,a_t),\qquad
 H_{t+1}=O_\phi(H^-_{t+1},Z_{t+1},p_{t+1}).
-$$
+```
 
 初始状态为 $H_0=O_\phi(0,Z_0,0)$。Dynamic 使用动作与 token 身份条件调制的四层 AdaLN 模块及残差门控。图中的 Perception 对应代码中的 Observation：视觉和坐标各自通过 cross-attention 提出修正 $U_v,U_p$，独立 sigmoid 门控后融合：
 
-$$
-H_{t+1}=\mathcal N\!\left(H^-_{t+1}+g_v\odot U_v+g_p\odot U_p\right),\qquad
-\mathcal N(h)=\frac{h}{\max(\operatorname{RMS}(h),10^{-8})}.
-$$
+```math
+H_{t+1}=\mathcal{N}\left(H^-_{t+1}+g_v\odot U_v+g_p\odot U_p\right),\qquad
+\mathcal{N}(h)=\frac{h}{\max(\mathrm{RMS}(h),10^{-8})}.
+```
 
-$\odot$ 为逐元素乘法；$g_v,g_p$ 为逐特征门控，不进行模态 softmax。$\mathcal N$ 对每个 token 固定 RMS 归一化。**$H$ 是世界模型唯一循环隐状态**；完整导航器另有坐标累加器、历史点表等运行状态。
+$\odot$ 为逐元素乘法；$g_v,g_p$ 为逐特征门控，不进行模态 softmax。$\mathcal{N}$ 对每个 token 固定 RMS 归一化。**$H$ 是世界模型唯一循环隐状态**；完整导航器另有坐标累加器、历史点表等运行状态。
 
 ### 读出与 Dream
 
 可达性头输出八个独立分数 $q_a(H)$；物理读出联合建模碰撞事件 $C$ 和相对坐标 $X,Y$：
 
-$$
+```math
 q_a(H)=\sigma(\ell_a(H)),\quad a\in\{0,\ldots,7\},\qquad
 P(C,X,Y\mid H)=P(C\mid H)P(X\mid H,C)P(Y\mid H,C).
-$$
+```
 
 $\ell_a$ 是动作 $a$ 的预测 logit，$C=1$ 表示碰撞。八个可达分数不要求和为1。给定动作，联合读出在“移动一格”和“原地碰撞”两个合法结果之间解码。Dream 从当前修正状态 $\widehat H_0=H_t$ 出发，仅递推 $\widehat H_{k+1}=D_\theta(\widehat H_k,a_k)$；不访问未来观测、真实未来坐标或墙体图。
 
@@ -71,13 +71,13 @@ $\ell_a$ 是动作 $a$ 的预测 logit，$C=1$ 表示碰撞。八个可达分数
 
 训练沿录制轨迹使用真实动作，随机采样 $L\sim U\{1,\ldots,6\}$，连续 $L$ 次 Dynamic 后进行一次真实观测修正。每一步预测状态均接受对应真实下一时刻的监督，优化目标为：
 
-$$
-\mathcal L=
-\mathcal L_{\rm coord}+\mathcal L_{\rm visual}+\mathcal L_{\rm collision}
-+0.2\mathcal L_{\rm reach}+0.05\mathcal L_{\rm align}.
-$$
+```math
+\mathcal{L}=
+\mathcal{L}_{\mathrm{coord}}+\mathcal{L}_{\mathrm{visual}}+\mathcal{L}_{\mathrm{collision}}
++0.2\mathcal{L}_{\mathrm{reach}}+0.05\mathcal{L}_{\mathrm{align}}.
+```
 
-坐标项为真实碰撞条件分支上的软标签交叉熵；视觉项为归一化特征的 L1 误差；碰撞项为二元交叉熵。可达性只监督实际执行方向，标签为动作是否成功移动，碰撞样本权重为4；在观测修正位置，可达性项取先验、后验损失的均值，$\mathcal L_{\rm align}$ 为两者八个 Bernoulli 分布的平均 JS 散度。视觉编码器及 LoRA 均冻结。
+坐标项为真实碰撞条件分支上的软标签交叉熵；视觉项为归一化特征的 L1 误差；碰撞项为二元交叉熵。可达性只监督实际执行方向，标签为动作是否成功移动，碰撞样本权重为4；在观测修正位置，可达性项取先验、后验损失的均值，$\mathcal{L}_{\mathrm{align}}$ 为两者八个 Bernoulli 分布的平均 JS 散度。视觉编码器及 LoRA 均冻结。
 
 ## 3. 势能导航
 
@@ -85,13 +85,13 @@ $$
 
 设 $p$ 为位置、$g$ 为目标，$r_i$ 为第 $i$ 个远离点，$t_i$ 为其首次登记步数。导航使用“越大越好”的势值：
 
-$$
+```math
 \Phi_t(p)=
 \frac{\rho}{\sqrt{\|p-g\|^2+\rho^2}}
 -\beta\left(1-e^{-\|p-g\|^2/\ell^2}\right)
 \sum_i 2^{-(t-t_i)/T_{1/2}}
 \left[1-\frac{\|p-r_i\|^2}{R^2}\right]_+^2.
-$$
+```
 
 其中 $[x]_+=\max(x,0)$，$t$ 为真实执行步数，距离以格计。默认 $\rho=8,\beta=0.5,\ell=1,R=8,T_{1/2}=32$。第一项吸引目标；第二项抑制历史停滞区域，8格以外影响为零，强度每32步减半，并在目标处关闭。存在安全候选且没有安全预测到达路径时，若最高路径分数不超过 $10^{-6}$，或最近20步满足重复与停滞条件，则登记当前位置；重复登记不刷新首次时间。一次 Dream 评分固定使用当前 $t$。
 
@@ -106,10 +106,10 @@ $$
 
 首动作的基础提议 $b_0(a)=1/8$；后续提议围绕本条路径首动作的方向角形成高斯分布：
 
-$$
+```math
 b_k(a)\propto\exp\!\left[-\frac{\Delta\theta(a,a_0)^2}{2\sigma_k^2}\right],\qquad
 \pi_k(a)=0.9\frac{b_k(a)q_a(\widehat H_k)}{\sum_{a'}b_k(a')q_{a'}(\widehat H_k)}+0.1b_k(a).
-$$
+```
 
 $\Delta\theta$ 是折回 $[-180^\circ,180^\circ)$ 的方向角差；后五步 $\sigma_k$ 依次为60°、45°、35°、30°、30°。$\pi_k$ 才是动作采样分布；加权质量过小时退回 $b_k$。每批生成128条候选：120条采样，另8条覆盖全部首方向，最长展开6步。
 
@@ -117,13 +117,13 @@ $\Delta\theta$ 是折回 $[-180^\circ,180^\circ)$ 的方向角差；后五步 $\
   <img src="asset/searchpath/searchpath.png" width="360" alt="候选路径示意：虚线为未选路径，实线为选中路径">
 </p>
 
-对安全候选集合 $\mathcal S$，记第 $j$ 条路径预测终点为 $\widehat p_{j,L_j}$，$L_j\le6$，当前真实位置为 $p_t$：
+对安全候选集合 $\mathcal{S}$，记第 $j$ 条路径预测终点为 $\widehat p_{j,L_j}$，$L_j\le6$，当前真实位置为 $p_t$：
 
-$$
-G_j=10\,\mathbf1[\widehat p_{j,L_j}=g]
+```math
+G_j=10\,\mathbf{1}[\widehat p_{j,L_j}=g]
 +\Phi_t(\widehat p_{j,L_j})-\Phi_t(p_t),\qquad
-P(j)=\frac{e^{G_j/\tau}}{\sum_{m\in\mathcal S}e^{G_m/\tau}},\quad\tau=0.02.
-$$
+P(j)=\frac{e^{G_j/\tau}}{\sum_{m\in\mathcal{S}}e^{G_m/\tau}},\quad\tau=0.02.
+```
 
 任一步预测碰撞、或首动作未通过当前状态的一步预测守卫，均剔除该候选。导航从 $P(j)$ **随机抽取路径**，最多执行前4步；每一步重新观测修正和检查守卫，出现运动失配或新通路时提前重规划。最多尝试两批，无安全候选则停止。势能用于路径评分，不直接转换为解析梯度动作。
 
