@@ -51,10 +51,10 @@ git lfs pull
 
 ## Python 环境
 
-使用 Python 3.10 或更高版本。先安装适合本机 CPU/CUDA 环境的 PyTorch，再安装其余依赖：
+使用 Python 3.10 或更高版本。依赖清单见 [requirements.txt](requirements.txt)。先安装适合本机 CPU/CUDA 环境的 PyTorch，再安装清单中的依赖；已满足要求的 PyTorch 会保留：
 
 ```bash
-python -m pip install numpy Pillow PyYAML tqdm
+python -m pip install -r requirements.txt
 ```
 
 当前本地验证环境为 Python 3.10.12、PyTorch 2.14.0+cu130、NumPy 2.2.6、Pillow 12.3.0、PyYAML 6.0.3 和 tqdm 4.70.1；这是一组已验证版本，不是依赖锁定文件。未验证所有版本与硬件组合。

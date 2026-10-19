@@ -1,0 +1,9 @@
+# Python 3.10+
+# Install the PyTorch build matching your CPU/CUDA hardware first.
+# Then run: python -m pip install -r requirements.txt
+# DINOv2 is vendored locally; xformers is optional and is not required.
+torch
+numpy
+Pillow
+PyYAML
+tqdm
