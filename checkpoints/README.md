@@ -19,4 +19,4 @@ checkpoints/
 
 复制整个发布目录即可使用这些资产，不依赖原项目目录或符号链接。加载器支持SHA256校验，校验值见manifest.yaml。
 
-权重二进制仍受根目录.gitignore的`*.pth`规则排除。本轮仅做本地整理，未提交或上传，公开分发方式尚未决定。
+权重二进制通过Git LFS分发；根目录`.gitignore`对`checkpoints/**/*.pth`保留发布例外，`.gitattributes`指定LFS管理规则。从GitHub克隆后运行`git lfs pull`获取完整文件，避免将LFS指针文本当成PyTorch权重加载。

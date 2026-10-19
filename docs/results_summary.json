@@ -1,0 +1,768 @@
+{
+  "schema_version": 2,
+  "title": "Wall-World：公开评估指标与图表数据",
+  "scope": "Self-contained aggregate metrics; internal experiment records and source paths are not required.",
+  "world_model_prediction": {
+    "protocol": {
+      "test_maps": 78,
+      "windows": 500,
+      "observations_before_rollout": 9,
+      "open_loop_steps": 9,
+      "samples_per_depth": 500,
+      "prediction_points": 4500,
+      "training_seed_count": 1,
+      "maximum_training_rollout_steps": 6,
+      "inputs": "Past local RGB, actual displacement and actual relative-coordinate history; no future observations during rollout",
+      "position_accuracy_definition": "Both predicted grid-coordinate axes must exactly match the target",
+      "coordinate_l1_definition": "mean(abs(predicted_x-target_x)+abs(predicted_y-target_y)), in grid cells",
+      "collision_ap_definition": "Average precision of collision scores, not ROC-AUC"
+    },
+    "pooled": {
+      "prediction_points": 4500,
+      "position_exact_correct": 3841,
+      "position_exact_accuracy": 0.8535555555555555,
+      "coordinate_l1": 0.45666666666666667,
+      "collision_ap": 0.9942527667826673,
+      "collision_accuracy": 0.9604444444444444,
+      "full_rollout_correct_windows": 281,
+      "full_rollout_exact_accuracy": 0.562,
+      "hold_position_exact_accuracy": 0.11133333333333334
+    },
+    "by_depth": [
+      {
+        "depth": 1,
+        "samples": 500,
+        "position_exact_accuracy": 0.986,
+        "hold_position_exact_accuracy": 0.514,
+        "coordinate_l1": 0.016,
+        "collision_ap": 1.0
+      },
+      {
+        "depth": 2,
+        "samples": 500,
+        "position_exact_accuracy": 0.978,
+        "hold_position_exact_accuracy": 0.158,
+        "coordinate_l1": 0.238,
+        "collision_ap": 1.0
+      },
+      {
+        "depth": 3,
+        "samples": 500,
+        "position_exact_accuracy": 0.97,
+        "hold_position_exact_accuracy": 0.042,
+        "coordinate_l1": 0.042,
+        "collision_ap": 0.9998683769840249
+      },
+      {
+        "depth": 4,
+        "samples": 500,
+        "position_exact_accuracy": 0.932,
+        "hold_position_exact_accuracy": 0.056,
+        "coordinate_l1": 0.308,
+        "collision_ap": 0.9968780638406733
+      },
+      {
+        "depth": 5,
+        "samples": 500,
+        "position_exact_accuracy": 0.91,
+        "hold_position_exact_accuracy": 0.056,
+        "coordinate_l1": 0.344,
+        "collision_ap": 0.9958336918901919
+      },
+      {
+        "depth": 6,
+        "samples": 500,
+        "position_exact_accuracy": 0.836,
+        "hold_position_exact_accuracy": 0.048,
+        "coordinate_l1": 0.456,
+        "collision_ap": 0.9928700598071283
+      },
+      {
+        "depth": 7,
+        "samples": 500,
+        "position_exact_accuracy": 0.782,
+        "hold_position_exact_accuracy": 0.048,
+        "coordinate_l1": 0.556,
+        "collision_ap": 0.988157339489372
+      },
+      {
+        "depth": 8,
+        "samples": 500,
+        "position_exact_accuracy": 0.692,
+        "hold_position_exact_accuracy": 0.048,
+        "coordinate_l1": 0.814,
+        "collision_ap": 0.9734129485442652
+      },
+      {
+        "depth": 9,
+        "samples": 500,
+        "position_exact_accuracy": 0.596,
+        "hold_position_exact_accuracy": 0.032,
+        "coordinate_l1": 1.336,
+        "collision_ap": 0.9724214018239462
+      }
+    ],
+    "limitations": [
+      "One training seed; results do not include retraining variance.",
+      "Evaluation maps use the same generator family.",
+      "Past correction steps receive actual relative coordinates.",
+      "Overall visual-feature L1 does not outperform holding the last observed feature."
+    ],
+    "visual_feature_diagnostic": {
+      "visual_l1": 0.32566508650779724,
+      "last_observation_hold_l1": 0.2938888669013977
+    },
+    "training_rollout_comparison": {
+      "meaning": "Uniformly sample a training rollout length from 1 to the listed maximum; correction frequency changes jointly with that maximum.",
+      "shared_protocol": "Same 500 windows, 78 maps, 9 open-loop prediction steps and one training seed; 500 predictions per depth.",
+      "current_model_maximum_rollout": 6,
+      "settings": [
+        {
+          "maximum_training_rollout_steps": 1,
+          "display_name": "≤1",
+          "pooled": {
+            "position_exact_accuracy": 0.16622222222222222,
+            "coordinate_l1": 13.670222222222222,
+            "collision_ap": 0.688298188176054
+          },
+          "by_depth": [
+            {
+              "depth": 1,
+              "samples": 500,
+              "position_exact_accuracy": 0.998,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 2,
+              "samples": 500,
+              "position_exact_accuracy": 0.308,
+              "collision_ap": 0.6276271921074623
+            },
+            {
+              "depth": 3,
+              "samples": 500,
+              "position_exact_accuracy": 0.08,
+              "collision_ap": 0.5922973202248237
+            },
+            {
+              "depth": 4,
+              "samples": 500,
+              "position_exact_accuracy": 0.042,
+              "collision_ap": 0.6984352027344961
+            },
+            {
+              "depth": 5,
+              "samples": 500,
+              "position_exact_accuracy": 0.036,
+              "collision_ap": 0.5544863661086854
+            },
+            {
+              "depth": 6,
+              "samples": 500,
+              "position_exact_accuracy": 0.016,
+              "collision_ap": 0.6124736274004833
+            },
+            {
+              "depth": 7,
+              "samples": 500,
+              "position_exact_accuracy": 0.008,
+              "collision_ap": 0.5513564048464251
+            },
+            {
+              "depth": 8,
+              "samples": 500,
+              "position_exact_accuracy": 0.004,
+              "collision_ap": 0.5278662841672997
+            },
+            {
+              "depth": 9,
+              "samples": 500,
+              "position_exact_accuracy": 0.004,
+              "collision_ap": 0.5491912436920894
+            }
+          ]
+        },
+        {
+          "maximum_training_rollout_steps": 2,
+          "display_name": "≤2",
+          "pooled": {
+            "position_exact_accuracy": 0.6317777777777778,
+            "coordinate_l1": 1.444888888888889,
+            "collision_ap": 0.9577316348304484
+          },
+          "by_depth": [
+            {
+              "depth": 1,
+              "samples": 500,
+              "position_exact_accuracy": 0.994,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 2,
+              "samples": 500,
+              "position_exact_accuracy": 0.994,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 3,
+              "samples": 500,
+              "position_exact_accuracy": 0.942,
+              "collision_ap": 0.9927711037835852
+            },
+            {
+              "depth": 4,
+              "samples": 500,
+              "position_exact_accuracy": 0.82,
+              "collision_ap": 0.9582012635528829
+            },
+            {
+              "depth": 5,
+              "samples": 500,
+              "position_exact_accuracy": 0.664,
+              "collision_ap": 0.9620217936125356
+            },
+            {
+              "depth": 6,
+              "samples": 500,
+              "position_exact_accuracy": 0.47,
+              "collision_ap": 0.916519222171014
+            },
+            {
+              "depth": 7,
+              "samples": 500,
+              "position_exact_accuracy": 0.35,
+              "collision_ap": 0.9012332902785825
+            },
+            {
+              "depth": 8,
+              "samples": 500,
+              "position_exact_accuracy": 0.26,
+              "collision_ap": 0.8374034779389191
+            },
+            {
+              "depth": 9,
+              "samples": 500,
+              "position_exact_accuracy": 0.192,
+              "collision_ap": 0.8581168778412267
+            }
+          ]
+        },
+        {
+          "maximum_training_rollout_steps": 3,
+          "display_name": "≤3",
+          "pooled": {
+            "position_exact_accuracy": 0.7695555555555555,
+            "coordinate_l1": 1.3851111111111112,
+            "collision_ap": 0.9833031509199291
+          },
+          "by_depth": [
+            {
+              "depth": 1,
+              "samples": 500,
+              "position_exact_accuracy": 0.986,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 2,
+              "samples": 500,
+              "position_exact_accuracy": 0.984,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 3,
+              "samples": 500,
+              "position_exact_accuracy": 0.98,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 4,
+              "samples": 500,
+              "position_exact_accuracy": 0.928,
+              "collision_ap": 0.9938179874002953
+            },
+            {
+              "depth": 5,
+              "samples": 500,
+              "position_exact_accuracy": 0.868,
+              "collision_ap": 0.9891374626222381
+            },
+            {
+              "depth": 6,
+              "samples": 500,
+              "position_exact_accuracy": 0.762,
+              "collision_ap": 0.9762552863843448
+            },
+            {
+              "depth": 7,
+              "samples": 500,
+              "position_exact_accuracy": 0.598,
+              "collision_ap": 0.959452198931299
+            },
+            {
+              "depth": 8,
+              "samples": 500,
+              "position_exact_accuracy": 0.456,
+              "collision_ap": 0.9043218531280037
+            },
+            {
+              "depth": 9,
+              "samples": 500,
+              "position_exact_accuracy": 0.364,
+              "collision_ap": 0.9073738669899479
+            }
+          ]
+        },
+        {
+          "maximum_training_rollout_steps": 4,
+          "display_name": "≤4",
+          "pooled": {
+            "position_exact_accuracy": 0.7862222222222223,
+            "coordinate_l1": 1.1784444444444444,
+            "collision_ap": 0.9901264177205498
+          },
+          "by_depth": [
+            {
+              "depth": 1,
+              "samples": 500,
+              "position_exact_accuracy": 0.976,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 2,
+              "samples": 500,
+              "position_exact_accuracy": 0.956,
+              "collision_ap": 0.9999828538115977
+            },
+            {
+              "depth": 3,
+              "samples": 500,
+              "position_exact_accuracy": 0.946,
+              "collision_ap": 0.9999853762686087
+            },
+            {
+              "depth": 4,
+              "samples": 500,
+              "position_exact_accuracy": 0.89,
+              "collision_ap": 0.9966952892086101
+            },
+            {
+              "depth": 5,
+              "samples": 500,
+              "position_exact_accuracy": 0.85,
+              "collision_ap": 0.9949442657886164
+            },
+            {
+              "depth": 6,
+              "samples": 500,
+              "position_exact_accuracy": 0.774,
+              "collision_ap": 0.9854069606876962
+            },
+            {
+              "depth": 7,
+              "samples": 500,
+              "position_exact_accuracy": 0.682,
+              "collision_ap": 0.9714864680269252
+            },
+            {
+              "depth": 8,
+              "samples": 500,
+              "position_exact_accuracy": 0.54,
+              "collision_ap": 0.9613480359331193
+            },
+            {
+              "depth": 9,
+              "samples": 500,
+              "position_exact_accuracy": 0.462,
+              "collision_ap": 0.9372379594440212
+            }
+          ]
+        },
+        {
+          "maximum_training_rollout_steps": 5,
+          "display_name": "≤5",
+          "pooled": {
+            "position_exact_accuracy": 0.8457777777777777,
+            "coordinate_l1": 0.6222222222222222,
+            "collision_ap": 0.9930337516216379
+          },
+          "by_depth": [
+            {
+              "depth": 1,
+              "samples": 500,
+              "position_exact_accuracy": 0.984,
+              "collision_ap": 0.9999699532773463
+            },
+            {
+              "depth": 2,
+              "samples": 500,
+              "position_exact_accuracy": 0.966,
+              "collision_ap": 0.9988780695911388
+            },
+            {
+              "depth": 3,
+              "samples": 500,
+              "position_exact_accuracy": 0.962,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 4,
+              "samples": 500,
+              "position_exact_accuracy": 0.92,
+              "collision_ap": 0.9976872839780541
+            },
+            {
+              "depth": 5,
+              "samples": 500,
+              "position_exact_accuracy": 0.902,
+              "collision_ap": 0.9952172323920758
+            },
+            {
+              "depth": 6,
+              "samples": 500,
+              "position_exact_accuracy": 0.834,
+              "collision_ap": 0.9904645486094467
+            },
+            {
+              "depth": 7,
+              "samples": 500,
+              "position_exact_accuracy": 0.76,
+              "collision_ap": 0.9880150356643453
+            },
+            {
+              "depth": 8,
+              "samples": 500,
+              "position_exact_accuracy": 0.676,
+              "collision_ap": 0.9650065965383584
+            },
+            {
+              "depth": 9,
+              "samples": 500,
+              "position_exact_accuracy": 0.608,
+              "collision_ap": 0.9680652506580211
+            }
+          ]
+        },
+        {
+          "maximum_training_rollout_steps": 6,
+          "display_name": "≤6",
+          "pooled": {
+            "position_exact_accuracy": 0.8535555555555555,
+            "coordinate_l1": 0.45666666666666667,
+            "collision_ap": 0.9942527667826673
+          },
+          "by_depth": [
+            {
+              "depth": 1,
+              "samples": 500,
+              "position_exact_accuracy": 0.986,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 2,
+              "samples": 500,
+              "position_exact_accuracy": 0.978,
+              "collision_ap": 1.0
+            },
+            {
+              "depth": 3,
+              "samples": 500,
+              "position_exact_accuracy": 0.97,
+              "collision_ap": 0.9998683769840249
+            },
+            {
+              "depth": 4,
+              "samples": 500,
+              "position_exact_accuracy": 0.932,
+              "collision_ap": 0.9968780638406733
+            },
+            {
+              "depth": 5,
+              "samples": 500,
+              "position_exact_accuracy": 0.91,
+              "collision_ap": 0.9958336918901919
+            },
+            {
+              "depth": 6,
+              "samples": 500,
+              "position_exact_accuracy": 0.836,
+              "collision_ap": 0.9928700598071283
+            },
+            {
+              "depth": 7,
+              "samples": 500,
+              "position_exact_accuracy": 0.782,
+              "collision_ap": 0.988157339489372
+            },
+            {
+              "depth": 8,
+              "samples": 500,
+              "position_exact_accuracy": 0.692,
+              "collision_ap": 0.9734129485442652
+            },
+            {
+              "depth": 9,
+              "samples": 500,
+              "position_exact_accuracy": 0.596,
+              "collision_ap": 0.9724214018239462
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "navigation": {
+    "protocol": {
+      "test_maps": 30,
+      "tasks_per_map": 2,
+      "task_types": {
+        "A": "外到内",
+        "B": "内到外"
+      },
+      "stochastic_runs_per_task": 2,
+      "argmax_runs_per_task": 1,
+      "maximum_real_steps": 256,
+      "shortest_path_range_steps": [
+        49,
+        62
+      ],
+      "map_distribution": "New maps from the same generator; not used for tuning the frozen navigation methods",
+      "rate_denominator": "Pooled total real steps, not the average of episode-wise rates",
+      "sac_collision_masking": false
+    },
+    "overall": {
+      "world_model_navigation": {
+        "episodes": 120,
+        "successes": 100,
+        "success_rate": 0.8333333333333334,
+        "total_real_steps": 19143,
+        "collisions": 0,
+        "collisions_per_real_step": 0.0,
+        "immediate_backtracks": 909,
+        "immediate_backtracks_per_real_step": 0.04748472026328162,
+        "four_step_cycles": 354,
+        "four_step_cycles_per_real_step": 0.018492399310452906,
+        "repeated_successful_directed_edges": 732,
+        "repeated_successful_directed_edges_per_real_step": 0.03823852060805517,
+        "mean_collisions_per_episode": 0.0,
+        "mean_max_local_residence_steps": 19.416666666666668,
+        "display_name": "本方法"
+      },
+      "sac_sampling": {
+        "episodes": 120,
+        "successes": 80,
+        "success_rate": 0.6666666666666666,
+        "total_real_steps": 17157,
+        "collisions": 278,
+        "collisions_per_real_step": 0.016203298945037012,
+        "immediate_backtracks": 1613,
+        "immediate_backtracks_per_real_step": 0.0940141050300169,
+        "four_step_cycles": 878,
+        "four_step_cycles_per_real_step": 0.05117444774727516,
+        "repeated_successful_directed_edges": 4776,
+        "repeated_successful_directed_edges_per_real_step": 0.2783703444658157,
+        "mean_collisions_per_episode": 2.316666666666667,
+        "mean_max_local_residence_steps": 55.425,
+        "display_name": "HER GRU-SAC 采样"
+      },
+      "sac_argmax": {
+        "episodes": 60,
+        "successes": 33,
+        "success_rate": 0.55,
+        "total_real_steps": 9170,
+        "collisions": 602,
+        "collisions_per_real_step": 0.06564885496183206,
+        "immediate_backtracks": 2185,
+        "immediate_backtracks_per_real_step": 0.23827699018538714,
+        "four_step_cycles": 2567,
+        "four_step_cycles_per_real_step": 0.27993456924754634,
+        "repeated_successful_directed_edges": 5062,
+        "repeated_successful_directed_edges_per_real_step": 0.5520174482006543,
+        "mean_collisions_per_episode": 10.033333333333333,
+        "mean_max_local_residence_steps": 100.0,
+        "display_name": "HER GRU-SAC argmax"
+      },
+      "long_range_repulsion": {
+        "episodes": 120,
+        "successes": 85,
+        "success_rate": 0.7083333333333334,
+        "total_real_steps": 20296,
+        "collisions": 0,
+        "collisions_per_real_step": 0.0,
+        "immediate_backtracks": 934,
+        "immediate_backtracks_per_real_step": 0.046018919984233346,
+        "four_step_cycles": 409,
+        "four_step_cycles_per_real_step": 0.020151754040204965,
+        "repeated_successful_directed_edges": 867,
+        "repeated_successful_directed_edges_per_real_step": 0.042717776901852585,
+        "mean_collisions_per_episode": 0.0,
+        "mean_max_local_residence_steps": 20.633333333333333,
+        "display_name": "长程排斥核对照"
+      }
+    },
+    "scenario_success": {
+      "A": {
+        "definition": "Outside-to-inside task",
+        "groups": {
+          "world_model_navigation": {
+            "episodes": 60,
+            "successes": 53,
+            "success_rate": 0.8833333333333333
+          },
+          "long_range_repulsion": {
+            "episodes": 60,
+            "successes": 44,
+            "success_rate": 0.7333333333333333
+          },
+          "sac_sampling": {
+            "episodes": 60,
+            "successes": 34,
+            "success_rate": 0.5666666666666667
+          },
+          "sac_argmax": {
+            "episodes": 30,
+            "successes": 14,
+            "success_rate": 0.4666666666666667
+          }
+        }
+      },
+      "B": {
+        "definition": "Inside-to-outside task, reversed start and goal",
+        "groups": {
+          "world_model_navigation": {
+            "episodes": 60,
+            "successes": 47,
+            "success_rate": 0.7833333333333333
+          },
+          "long_range_repulsion": {
+            "episodes": 60,
+            "successes": 41,
+            "success_rate": 0.6833333333333333
+          },
+          "sac_sampling": {
+            "episodes": 60,
+            "successes": 46,
+            "success_rate": 0.7666666666666667
+          },
+          "sac_argmax": {
+            "episodes": 30,
+            "successes": 19,
+            "success_rate": 0.6333333333333333
+          }
+        }
+      }
+    },
+    "paired_success_rate_differences": [
+      {
+        "difference": 0.125,
+        "ci95": [
+          0.025000000000000022,
+          0.22499999999999998
+        ],
+        "units": "fraction of episodes; multiply by 100 for percentage points",
+        "resampling_unit": "whole map (paired)",
+        "independent_maps": 30,
+        "resamples": 20000,
+        "bootstrap_seed": 18883001,
+        "method": "world_model_navigation",
+        "reference": "long_range_repulsion"
+      },
+      {
+        "difference": 0.16666666666666674,
+        "ci95": [
+          0.05833333333333335,
+          0.275
+        ],
+        "units": "fraction of episodes; multiply by 100 for percentage points",
+        "resampling_unit": "whole map (paired)",
+        "independent_maps": 30,
+        "resamples": 20000,
+        "bootstrap_seed": 18983001,
+        "method": "world_model_navigation",
+        "reference": "sac_sampling"
+      },
+      {
+        "difference": 0.2833333333333333,
+        "ci95": [
+          0.14166666666666672,
+          0.425
+        ],
+        "units": "fraction of episodes; multiply by 100 for percentage points",
+        "resampling_unit": "whole map (paired)",
+        "independent_maps": 30,
+        "resamples": 20000,
+        "bootstrap_seed": 18983001,
+        "method": "world_model_navigation",
+        "reference": "sac_argmax"
+      }
+    ],
+    "shared_observation_timing": {
+      "hardware": {
+        "gpu": "NVIDIA GeForce RTX 4060",
+        "torch": "2.7.0+cu128",
+        "cuda": "12.8"
+      },
+      "recorded_input_states": 120,
+      "repeats_per_method": 3,
+      "total_samples": 1080,
+      "includes": [
+        "current visual encoding",
+        "temporal state update",
+        "action decision"
+      ],
+      "excludes": [
+        "environment step and rendering",
+        "state restore and input-context preparation",
+        "checkpoint writing and audit"
+      ],
+      "gpu_synchronized": true,
+      "same_encoder_weights": true,
+      "visual_feature_cache": false,
+      "groups": {
+        "world_model_navigation": {
+          "samples": 360,
+          "mean_ms_per_input_state": 69.27560624445606,
+          "p95_ms_per_input_state": 127.7771142997608
+        },
+        "sac_sampling": {
+          "samples": 360,
+          "mean_ms_per_input_state": 17.578737877773975,
+          "p95_ms_per_input_state": 26.29862515005925
+        },
+        "sac_argmax": {
+          "samples": 360,
+          "mean_ms_per_input_state": 17.824105266667956,
+          "p95_ms_per_input_state": 26.142777449854297
+        }
+      },
+      "limitation": "Fixed recorded observations; results depend on the mixture of replanning and queued-action states. Environment execution and rendering are excluded."
+    },
+    "interpretation_limits": [
+      "Success improvement over stochastic SAC is concentrated in outside-to-inside tasks; inside-to-outside counts are 47/60 versus 46/60.",
+      "Complete-system comparison; training budgets and data, search, guards and history differ.",
+      "Observed zero collisions is not a theoretical guarantee.",
+      "Comparison groups share the same thirty maps; this is one navigation benchmark.",
+      "Differences in loop metrics between local and long-range repulsion have confidence intervals spanning zero.",
+      "Bootstrap resampling uses whole maps to account for within-map dependence."
+    ]
+  },
+  "figures": {
+    "navigation_comparison": "asset/results/navigation_comparison.png",
+    "palette": {
+      "world_model_navigation": "#E98B2C",
+      "sac_sampling": "#287F87",
+      "sac_argmax": "#8FA3B8"
+    },
+    "comparison_case_selection": "Paired same-map, task and execution-seed examples selected after evaluation: the world-model method succeeded with no collision while both SAC variants failed. These are advantage-selected illustrations, not random cases.",
+    "navigation_demonstrations": "The two local/global navigation GIFs illustrate the earlier navigator prototype; use aggregate benchmark metrics for the current method.",
+    "world_model_position_accuracy": "asset/results/world_model_xy_accuracy.png",
+    "world_model_collision_ap": "asset/results/world_model_collision_ap.png",
+    "training_rollout_palette": [
+      "#A5B5C3",
+      "#527B9A",
+      "#2C938D",
+      "#8D7DAA",
+      "#C76E7C",
+      "#E98B2C"
+    ]
+  }
+}
